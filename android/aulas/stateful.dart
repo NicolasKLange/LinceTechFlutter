@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
           print("Clicou");
           diminuirSalario(100);
           },
-        
+
         child: Text(
           "O salario de ${widget.nome} é $salario",
           textDirection: TextDirection.ltr,),
