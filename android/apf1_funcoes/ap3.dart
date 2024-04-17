@@ -8,9 +8,9 @@ void main() {
 }
 
 enum GameState {
-  jogando,
-  ganhou,
-  perdeu,
+  Jogando,
+  Ganhou,
+  Perdeu,
 }
 
 class MyApp extends StatelessWidget {
@@ -40,7 +40,7 @@ class _MyWidgetState extends State<MyWidget> {
 
   var correctButton = 0;
   var clicks = 0;
-  var gameState = GameState.jogando;
+  var gameState = GameState.Jogando;
   var wins = 0;
   var losses = 0;
 
@@ -57,12 +57,12 @@ class _MyWidgetState extends State<MyWidget> {
   void checkAnswer(int option) {
     setState(() {
       if (option == correctButton) {
-        gameState = GameState.ganhou;
+        gameState = GameState.Ganhou;
         wins++;
       } else {
         clicks++;
         if (clicks >= 2) {
-          gameState = GameState.perdeu;
+          gameState = GameState.Perdeu;
           losses++;
         }
       }
@@ -72,84 +72,73 @@ class _MyWidgetState extends State<MyWidget> {
   void restartGame() {
     setState(() {
       clicks = 0;
-      gameState = GameState.jogando;
+      gameState = GameState.Jogando;
       generateCorrectButton();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor;
     switch (gameState) {
-      case GameState.jogando:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              child: const Text('A'),
-              onPressed: () {
-                checkAnswer(0);
-              },
-            ),
-            ElevatedButton(
-              child: const Text('B'),
-              onPressed: () {
-                checkAnswer(1);
-              },
-            ),
-            ElevatedButton(
-              child: const Text('C'),
-              onPressed: () {
-                checkAnswer(2);
-              },
-            ),
-          ],
-        );
-      case GameState.ganhou:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              color: Colors.green,
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    'Você ganhou',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  ElevatedButton(
-                    onPressed: restartGame,
-                    child: Text('Reiniciar'),
-                  ),
-                ],
-              ),
-            ),
-            Text('Vitórias: $wins | Derrotas: $losses'),
-          ],
-        );
-      case GameState.perdeu:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              color: Colors.red,
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    'Você perdeu',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  ElevatedButton(
-                    onPressed: restartGame,
-                    child: Text('Reiniciar'),
-                  ),
-                ],
-              ),
-            ),
-            Text('Vitórias: $wins | Derrotas: $losses'),
-          ],
-        );
+      case GameState.Jogando:
+        backgroundColor = darkBlue;
+        break;
+      case GameState.Ganhou:
+        backgroundColor = Colors.green;
+        break;
+      case GameState.Perdeu:
+        backgroundColor = Colors.red;
+        break;
     }
+
+    return Container(
+      color: backgroundColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (gameState == GameState.Jogando)
+            Column(
+              children: [
+                ElevatedButton(
+                  child: const Text('A'),
+                  onPressed: () {
+                    checkAnswer(0);
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text('B'),
+                  onPressed: () {
+                    checkAnswer(1);
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text('C'),
+                  onPressed: () {
+                    checkAnswer(2);
+                  },
+                ),
+              ],
+            ),
+          if (gameState != GameState.Jogando)
+            Container(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Text(
+                    gameState == GameState.Ganhou ? 'Você ganhou' : 'Você perdeu',
+                    style: TextStyle(fontSize: 24),
+                  ),
+                  ElevatedButton(
+                    onPressed: restartGame,
+                    child: Text('Reiniciar'),
+                  ),
+                ],
+              ),
+            ),
+          Text('Vitórias: $wins | Derrotas: $losses'),
+        ],
+      ),
+    );
   }
 }
