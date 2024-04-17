@@ -71,7 +71,7 @@ class _GuessButtonScreenState extends State<GuessButtonScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Guess the Button Game'),
+        title: Text('Clique no botao correto!!'),
       ),
       backgroundColor: backgroundColor,
       body: Center(
