@@ -17,7 +17,9 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(title: Text("Aplicativo de imagem"),
         ),
-        body: Image.asset('assets/images/imagem1.png'),
+        body: Center(
+          child: Image.asset('assets/images/carro.png'),
+        )
       ),
     );
   }
