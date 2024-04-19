@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
               color: Colors.lightBlue,
             ),
             //Posiciona o container
-            Positioned(
+            Positioned (
               bottom: 10,  //se desloca 10px em relacao a base
               right: 10, //se desloca 10px em relacao a esquerda
               child: Container(
@@ -43,12 +43,12 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
             Positioned(
-              top: 10, //se desloca 10px em relacao ao topo
-              left: 10, //se desloca 10px em relacao a esquerda
+              top: 20, //se desloca 10px em relacao ao topo
+              left: 20, //se desloca 10px em relacao a esquerda
               child: Container(
                 width: 100,
                 height: 100,
-                color: Colors.indigoAccent,
+                color: Colors.yellow,
               ),
             ),
           ],

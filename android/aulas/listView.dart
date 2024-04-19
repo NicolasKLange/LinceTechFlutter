@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
             return ListTile(
               title: Text(
                 listaProdutos[indice],
-                style: TextStyle(fontSize: 40),),
+                style: TextStyle(fontSize: 40,),),
               onTap: (){
                 print("O produto selecionao foi o ${listaProdutos[indice]}");
               },
