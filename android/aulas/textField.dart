@@ -8,7 +8,7 @@ enum Genero {
 }
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -23,31 +23,31 @@ class _MyAppState extends State<MyApp> {
   String email = '';
   String senha = '';
   bool aceitoTermo = false;
-  Genero genero = Genero.Feminino;
+  Genero genero = Genero.Outro;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Center(child: Text("Pagina de cadastro"), //título da pagina
+          title: const Center(child: Text("Pagina de cadastro"), //título da pagina
           ),
         ),
         body: Padding( //colocando margin em todo app
-          padding: EdgeInsets.all(30.0),
+          padding: const EdgeInsets.all(30.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround, //colando espaco igualado
             crossAxisAlignment: CrossAxisAlignment.stretch, //alinhando o botao de entrar(rodape) ao centro com o espcamento completo do app
             children: [
               ///TEXTO PRINCIPAL
-              Text(
+              const Text(
                 "Insira seus dados",
                 style: TextStyle(fontSize: 40), //customizando o texto principal
               ),
 
               ///E-MAIL
               TextField(
-                decoration: InputDecoration( //FAZER A DECORACAO DO TEXTO
+                decoration: const InputDecoration( //FAZER A DECORACAO DO TEXTO
                   labelText: "E-mail",
                 ),
                 onChanged: (text) {  //fazendo a coleta do email
@@ -57,11 +57,12 @@ class _MyAppState extends State<MyApp> {
 
               ///SENHA
               TextField(
-                decoration: InputDecoration( //FAZER A DECORACAO DO TEXTO
+                decoration: const InputDecoration( //FAZER A DECORACAO DO TEXTO
                     labelText: "Senha",
                 ),
                 obscureText: true, //FAZ COM QUE NAO APARECE A SENHA apenas ...
                 onChanged: (text) { //fazendo a coleta da senha
+                  print(text);
                   senha = text;
                 },
               ),
@@ -79,7 +80,7 @@ class _MyAppState extends State<MyApp> {
                       });
                     },
                   ),
-                  Text("Masculino"),
+                  const Text("Masculino"),
 
                   /// Radio button para selecionar gênero feminino
                   Radio<Genero>(
@@ -91,7 +92,7 @@ class _MyAppState extends State<MyApp> {
                       });
                     },
                   ),
-                  Text("Feminino"),
+                  const Text("Feminino"),
 
                   /// Radio button para selecionar outro gênero
                   Radio<Genero>(
@@ -103,7 +104,7 @@ class _MyAppState extends State<MyApp> {
                       });
                     },
                   ),
-                  Text("Outro"),
+                  const Text("Outro"),
                 ],
               ),
 
@@ -112,14 +113,14 @@ class _MyAppState extends State<MyApp> {
               Row(  //colocando em linha
                 children: [
                   Checkbox(
-                    value: this.aceitoTermo,  //instanciando a vaariavel
+                    value: aceitoTermo,  //instanciando a vaariavel
                     onChanged: (checked) { // vendo se o usuario clicou
                       setState(() {  //setar se o usuario concorda ou nao
                         aceitoTermo = !aceitoTermo;
                       });
                     },
                   ),
-                  Text("Concordo com os termos e uso do app"), //texto que  vai ao lado do checkbox
+                  const Text("Concordo com os termos e uso do app"), //texto que  vai ao lado do checkbox
                 ],
               ),
 
@@ -131,7 +132,7 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () { //verificando se o usuário clicou no botao
                   print("Entrar precionado");
                 },
-                child: Text( //texto do botao
+                child: const Text( //texto do botao
                   "Entrar",
                   style: TextStyle( //style do botao
                       fontSize: 20,
@@ -141,7 +142,7 @@ class _MyAppState extends State<MyApp> {
               ),
 
               ///ESQUECEU A SENHA
-              Center( //alinhando ao centro
+              const Center( //alinhando ao centro
                 child: Text(
                   "Esqueceu sua senha?",
                   style: TextStyle(fontSize: 20),
