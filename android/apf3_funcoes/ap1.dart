@@ -37,7 +37,7 @@ class _FormularioState extends State<_Formulario> {
   var _inativo = false;
 
   int? _idadeSalva;
-  String? _nomeSalvo;     
+  String? _nomeSalvo;
   bool? _inativoSalvo;
 
   bool get _isFormularioSalvo {
