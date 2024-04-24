@@ -4,6 +4,13 @@ void main() {
   runApp(MyApp());
 }
 
+///CLASSE PARA OS PARAMETROS DA TELA, PODENDO TRANSITAR ENTRE ROTAS
+class ArgumentosTelas{
+  final int id;
+  final String nome;
+
+  ArgumentosTelas(this.id, this.nome);
+}
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -14,7 +21,7 @@ class MyApp extends StatelessWidget {
       //LISTA DE ROTAS DO APP COM SEUS NOMES E SUAS FUNCIONALIDADES
       routes: {
         '/tela1': (context) => Tela1(),
-        '/tela2': (context) => Tela2(),
+        Tela2.routeName: (context) => Tela2(),
       },
     );
   }
@@ -26,6 +33,7 @@ class Tela1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int valor = 1;
     return Container(
       child: MaterialApp(
         home: Scaffold(
@@ -39,7 +47,9 @@ class Tela1 extends StatelessWidget {
               onPressed: () {
                 print("Clicou no botao");
                 //TROCANDO PARA A TELA 2
-                Navigator.pushNamed(context, '/tela2');
+                Navigator.pushNamed(context, '/tela2',
+                arguments: ArgumentosTelas( valor, "Nicolas $valor"));
+                valor++;
               }, //onPressed:
             ),
           ),
@@ -51,23 +61,28 @@ class Tela1 extends StatelessWidget {
 
 ///ESTRUTURA DA TELA 2
 class Tela2 extends StatelessWidget {
+  //IDENTIFICANDO A ROTA DENTRO DO WIDGET
+  static const routeName = '/tela2';
+
   const Tela2({super.key});
 
   @override
   Widget build(BuildContext context) {
+    //OBTENDO OS ARGUMENTOS
+    final argumentosTelas = ModalRoute.of(context)?.settings.arguments as ArgumentosTelas;
     return Container(
       child: MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            title: Text("Tela 2 "),
+            title: Text("Tela 2 " + argumentosTelas.nome ?? ''),
             backgroundColor: Colors.blue,
           ),
           body: Center(
             child: ElevatedButton(
-              child: Text("Retornar para a tela 1"),
+              child: const Text("Retornar para a tela 1"),
               onPressed: () {
                 //TROCANDO PARA A TELA 1
-                Navigator.pushNamed(context, '/tela1');
+                Navigator.pop(context);
               },
             ),
           ),
