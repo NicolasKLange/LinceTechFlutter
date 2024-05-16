@@ -12,22 +12,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GameScreen(),
+      home: TelaDoJogo(),
     );
   }
 }
 
-class GameScreen extends StatefulWidget {
+class TelaDoJogo extends StatefulWidget {
   @override
-  _GameScreenState createState() => _GameScreenState();
+  _TelaDoJogoState createState() => _TelaDoJogoState();
 }
 
-class _GameScreenState extends State<GameScreen> {
-  List<String> board = List.filled(9, '');
-  bool isPlayerXTurn = true;
-  int playerXScore = 0;
-  int playerOScore = 0;
-  List<int> winningSquares = [];
+class _TelaDoJogoState extends State<TelaDoJogo> {
+  List<String> tabuleiro = List.filled(9, '');
+  bool vezDoJogadorX = true;
+  int pontuacaoJogadorX = 0;
+  int pontuacaoJogadorO = 0;
+  List<int> quadradosVencedores = [];
 
   @override
   Widget build(BuildContext context) {
@@ -53,25 +53,25 @@ class _GameScreenState extends State<GameScreen> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  if (board[index] == '') {
+                  if (tabuleiro[index] == '') {
                     setState(() {
-                      if (isPlayerXTurn) {
-                        board[index] = 'X';
+                      if (vezDoJogadorX) {
+                        tabuleiro[index] = 'X';
                       } else {
-                        board[index] = 'O';
+                        tabuleiro[index] = 'O';
                       }
-                      isPlayerXTurn = !isPlayerXTurn;
-                      checkWinner();
+                      vezDoJogadorX = !vezDoJogadorX;
+                      verificarVencedor();
                     });
                   }
                 },
                 child: Container(
-                  color: winningSquares.contains(index)
+                  color: quadradosVencedores.contains(index)
                       ? Colors.green
                       : Colors.grey[300],
                   child: Center(
                     child: Text(
-                      board[index],
+                      tabuleiro[index],
                       style: TextStyle(fontSize: 40.0),
                     ),
                   ),
@@ -81,14 +81,14 @@ class _GameScreenState extends State<GameScreen> {
           ),
           SizedBox(height: 20.0),
           Text(
-            'Jogador X: $playerXScore   Jogador O: $playerOScore',
+            'Jogador X: $pontuacaoJogadorX   Jogador O: $pontuacaoJogadorO',
             style: TextStyle(fontSize: 20.0),
           ),
           SizedBox(height: 20.0),
           ElevatedButton(
             onPressed: () {
               setState(() {
-                resetGame();
+                reiniciarJogo();
               });
             },
             child: Text('Recomeçar'),
@@ -98,8 +98,8 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  void checkWinner() {
-    List<List<int>> winningConditions = [
+  void verificarVencedor() {
+    List<List<int>> condicoesVitoria = [
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
@@ -110,84 +110,74 @@ class _GameScreenState extends State<GameScreen> {
       [2, 4, 6],
     ];
 
-    for (var condition in winningConditions) {
-      if (board[condition[0]] != '' &&
-          board[condition[0]] == board[condition[1]] &&
-          board[condition[1]] == board[condition[2]]) {
+    for (var condicao in condicoesVitoria) {
+      if (tabuleiro[condicao[0]] != '' &&
+          tabuleiro[condicao[0]] == tabuleiro[condicao[1]] &&
+          tabuleiro[condicao[1]] == tabuleiro[condicao[2]]) {
         setState(() {
-          winningSquares = List<int>.from(condition);
+          quadradosVencedores = List<int>.from(condicao);
         });
-        if (board[condition[0]] == 'X') {
-          playerXScore++;
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Jogador X ganhou!'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      resetGame();
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
+        if (tabuleiro[condicao[0]] == 'X') {
+          pontuacaoJogadorX++;
+          mostrarDialogoVitoria('Jogador X');
         } else {
-          playerOScore++;
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Jogador O ganhou!'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      resetGame();
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
+          pontuacaoJogadorO++;
+          mostrarDialogoVitoria('Jogador O');
         }
         return;
       }
     }
 
-    // Check for draw
-    if (!board.contains('')) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Velhaaa!'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  resetGame();
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+    // Verifica empate
+    if (!tabuleiro.contains('')) {
+      mostrarDialogoEmpate();
     }
   }
 
-  void resetGame() {
+  void mostrarDialogoVitoria(String vencedor) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$vencedor ganhou!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                reiniciarJogo();
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void mostrarDialogoEmpate() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Velha!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                reiniciarJogo();
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void reiniciarJogo() {
     setState(() {
-      board = List.filled(9, '');
-      winningSquares = [];
+      tabuleiro = List.filled(9, '');
+      quadradosVencedores = [];
     });
   }
 }
-
-
