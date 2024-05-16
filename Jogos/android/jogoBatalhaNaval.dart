@@ -92,7 +92,7 @@ class Tabuleiro {
         celulas[x + i][y].temNavio = true;
         celulas[x + i][y].idNavio = idNavio;
       }
-    } else {    
+    } else {
       for (int i = 0; i < tamanho; i++) {
         if (celulas[x][y + i].temNavio) {
           return false;  // Se alguma célula já contém um navio, retorna falso.
