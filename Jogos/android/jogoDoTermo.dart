@@ -25,14 +25,10 @@ class TermoPage extends StatefulWidget {
 class _TermoPageState extends State<TermoPage> {
   List<String> termos = [
     "garfo",
-    "mesa",
     "livro",
     "papel",
-    "caneta",
-    "copo",
+    "copos",
     "mouse",
-    "teclado",
-    "celular"
   ];
 
   String termo = "";
