@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 void main() {
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -19,27 +17,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class Carro {
   final String marca;
   final String modelo;
   final double preco;
 
-
   Carro({required this.marca, required this.modelo, required this.preco});
 }
-
 
 class TelaLogin extends StatefulWidget {
   @override
   _TelaLoginState createState() => _TelaLoginState();
 }
 
-
 class _TelaLoginState extends State<TelaLogin> {
   final TextEditingController _controladorUsuario = TextEditingController();
   final TextEditingController _controladorSenha = TextEditingController();
-
 
   void _login() {
     // Implementar lógica de login
@@ -48,7 +41,6 @@ class _TelaLoginState extends State<TelaLogin> {
       MaterialPageRoute(builder: (context) => TelaListaCarros()),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -81,31 +73,40 @@ class _TelaLoginState extends State<TelaLogin> {
   }
 }
 
-
 class TelaListaCarros extends StatefulWidget {
   @override
   _TelaListaCarrosState createState() => _TelaListaCarrosState();
 }
-
 
 class _TelaListaCarrosState extends State<TelaListaCarros> {
   List<Carro> carros = [
     Carro(marca: 'Toyota', modelo: 'Corolla', preco: 20000),
     Carro(marca: 'Honda', modelo: 'Civic', preco: 22000),
     Carro(marca: 'Ford', modelo: 'Focus', preco: 21000),
+    Carro(marca: 'Chevrolet', modelo: 'Cruze', preco: 23000),
+    Carro(marca: 'Volkswagen', modelo: 'Jetta', preco: 24000),
+    Carro(marca: 'Nissan', modelo: 'Sentra', preco: 19500),
+    Carro(marca: 'Hyundai', modelo: 'Elantra', preco: 22500),
+    Carro(marca: 'Kia', modelo: 'Cerato', preco: 21500),
+    Carro(marca: 'Toyota', modelo: 'Camry', preco: 25000),
+    Carro(marca: 'Honda', modelo: 'Accord', preco: 26000),
+    Carro(marca: 'Ford', modelo: 'Fusion', preco: 27000),
+    Carro(marca: 'Chevrolet', modelo: 'Malibu', preco: 28000),
+    Carro(marca: 'Volkswagen', modelo: 'Passat', preco: 29000),
+    Carro(marca: 'Nissan', modelo: 'Altima', preco: 30000),
+    Carro(marca: 'Hyundai', modelo: 'Sonata', preco: 31000),
+    Carro(marca: 'Kia', modelo: 'Optima', preco: 32000),
+    Carro(marca: 'Toyota', modelo: 'Avalon', preco: 33000),
   ];
-
 
   List<Carro> carrosFiltrados = [];
   List<Carro> carrinho = [];
-
 
   @override
   void initState() {
     super.initState();
     carrosFiltrados = carros;
   }
-
 
   void _filtrarCarros(String marca) {
     setState(() {
@@ -117,20 +118,17 @@ class _TelaListaCarrosState extends State<TelaListaCarros> {
     });
   }
 
-
   void _adicionarAoCarrinho(Carro carro) {
     setState(() {
       carrinho.add(carro);
     });
   }
 
-
   void _removerDoCarrinho(Carro carro) {
     setState(() {
       carrinho.remove(carro);
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +172,6 @@ class _TelaListaCarrosState extends State<TelaListaCarros> {
     );
   }
 
-
   void _mostrarDialogoFiltro() {
     showDialog(
       context: context,
@@ -203,14 +200,11 @@ class _TelaListaCarrosState extends State<TelaListaCarros> {
   }
 }
 
-
 class TelaCarro extends StatelessWidget {
   final List<Carro> carrinho;
   final Function(Carro) onRemove;
 
-
   TelaCarro({required this.carrinho, required this.onRemove});
-
 
   @override
   Widget build(BuildContext context) {
@@ -244,13 +238,10 @@ class TelaCarro extends StatelessWidget {
   }
 }
 
-
 class TelaDetalheCarro extends StatelessWidget {
   final Carro carro;
 
-
   TelaDetalheCarro({required this.carro});
-
 
   @override
   Widget build(BuildContext context) {
@@ -284,4 +275,3 @@ class TelaDetalheCarro extends StatelessWidget {
     );
   }
 }
-
