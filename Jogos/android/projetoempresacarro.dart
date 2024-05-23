@@ -4,6 +4,7 @@ void main() {
   runApp(MyApp());
 }
 
+/// Classe principal do aplicativo que configura o tema e define a tela inicial.
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Modelo de dados para representar um carro.
 class Carro {
   final String marca;
   final String modelo;
@@ -25,6 +27,7 @@ class Carro {
   Carro({required this.marca, required this.modelo, required this.preco});
 }
 
+/// Tela de login onde o usuário pode entrar no aplicativo.
 class TelaLogin extends StatefulWidget {
   @override
   _TelaLoginState createState() => _TelaLoginState();
@@ -34,6 +37,7 @@ class _TelaLoginState extends State<TelaLogin> {
   final TextEditingController _controladorUsuario = TextEditingController();
   final TextEditingController _controladorSenha = TextEditingController();
 
+  /// Função para simular o login do usuário e navegar para a tela de lista de carros.
   void _login() {
     // Implementar lógica de login
     Navigator.pushReplacement(
@@ -73,6 +77,7 @@ class _TelaLoginState extends State<TelaLogin> {
   }
 }
 
+/// Tela que exibe a lista de carros disponíveis para compra.
 class TelaListaCarros extends StatefulWidget {
   @override
   _TelaListaCarrosState createState() => _TelaListaCarrosState();
@@ -108,6 +113,7 @@ class _TelaListaCarrosState extends State<TelaListaCarros> {
     carrosFiltrados = carros;
   }
 
+  /// Filtra a lista de carros com base na marca.
   void _filtrarCarros(String marca) {
     setState(() {
       if (marca.isEmpty) {
@@ -118,12 +124,14 @@ class _TelaListaCarrosState extends State<TelaListaCarros> {
     });
   }
 
+  /// Adiciona um carro ao carrinho.
   void _adicionarAoCarrinho(Carro carro) {
     setState(() {
       carrinho.add(carro);
     });
   }
 
+  /// Remove um carro do carrinho.
   void _removerDoCarrinho(Carro carro) {
     setState(() {
       carrinho.remove(carro);
@@ -172,6 +180,7 @@ class _TelaListaCarrosState extends State<TelaListaCarros> {
     );
   }
 
+  /// Mostra um diálogo para filtrar carros por marca.
   void _mostrarDialogoFiltro() {
     showDialog(
       context: context,
@@ -200,12 +209,18 @@ class _TelaListaCarrosState extends State<TelaListaCarros> {
   }
 }
 
-class TelaCarro extends StatelessWidget {
+/// Tela que exibe os carros adicionados ao carrinho.
+class TelaCarro extends StatefulWidget {
   final List<Carro> carrinho;
   final Function(Carro) onRemove;
 
   TelaCarro({required this.carrinho, required this.onRemove});
 
+  @override
+  _TelaCarroState createState() => _TelaCarroState();
+}
+
+class _TelaCarroState extends State<TelaCarro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -213,15 +228,19 @@ class TelaCarro extends StatelessWidget {
         title: Text('Seu Carrinho'),
       ),
       body: ListView.builder(
-        itemCount: carrinho.length,
+        itemCount: widget.carrinho.length,
         itemBuilder: (context, index) {
-          final carro = carrinho[index];
+          final carro = widget.carrinho[index];
           return ListTile(
             title: Text('${carro.marca} ${carro.modelo}'),
             subtitle: Text('R\$${carro.preco.toStringAsFixed(2)}'),
             trailing: IconButton(
               icon: Icon(Icons.remove_shopping_cart),
-              onPressed: () => onRemove(carro),
+              onPressed: () {
+                setState(() {
+                  widget.onRemove(carro);
+                });
+              },
             ),
             onTap: () {
               Navigator.push(
@@ -238,6 +257,7 @@ class TelaCarro extends StatelessWidget {
   }
 }
 
+/// Tela que exibe os detalhes de um carro específico.
 class TelaDetalheCarro extends StatelessWidget {
   final Carro carro;
 
